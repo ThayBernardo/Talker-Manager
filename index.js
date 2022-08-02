@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const { readFile } = require('./fs.js');
+const { validate } = require('./Middlewares/validation');
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,7 +29,7 @@ app.get('/talker/:id', async (req, res) => {
   if (!personId) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', validate, (req, res) => {
   const token = crypto.randomBytes(8).toString('hex');
   return res.status(200).json({ token });
 });
