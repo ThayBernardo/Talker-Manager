@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const crypto = require('crypto');
 const { readFile } = require('./fs.js');
 
 const app = express();
@@ -25,6 +26,11 @@ app.get('/talker/:id', async (req, res) => {
   const personId = persons.find((person) => Number(person.id) === Number(id));
   if (personId) return res.status(200).json(personId);
   if (!personId) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+});
+
+app.post('/login', (req, res) => {
+  const token = crypto.randomBytes(8).toString('hex');
+  return res.status(200).json({ token });
 });
 
 app.listen(PORT, () => {
