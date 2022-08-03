@@ -23,6 +23,17 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
+app.get('/talker/search',
+validateToken,
+async (req, res) => {
+  const { q: name } = req.query;
+  const talkers = await readFile();
+  const filterName = talkers.filter((talker) => talker.name.includes(name));
+  console.log(req);
+  if (filterName.length === 0) return res.status(200).json([]);
+  return res.status(200).json(filterName);
+});
+
 app.get('/talker', async (_req, res) => {
   const persons = await readFile();
   if (!persons) return res.status(200).json([]);
@@ -75,7 +86,7 @@ async (req, res) => {
   const talkerEdit = { id: Number(id), name, age, talk: { watchedAt, rate } };
   const updateTalker = talkers.map((talker) => (talker.id === Number(id) ? talkerEdit : talker));
   await writeFile(updateTalker);
-  return res.status(200).json({ talkerEdit });
+  return res.status(200).json({ ...talkerEdit });
 });
 
 app.delete('/talker/:id',
