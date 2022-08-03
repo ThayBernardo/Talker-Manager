@@ -1,8 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const { readFile } = require('./fs.js');
-const { validate } = require('./Middlewares/validation');
+const { readFile, writeFile } = require('./fs.js');
+const { validate } = require('./Middlewares/validationEmailAndPassword');
+const {
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateTalkWatchedAt,
+  validateTalkRate,
+} = require('./Middlewares/validationPOSTinTalker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -32,6 +40,24 @@ app.get('/talker/:id', async (req, res) => {
 app.post('/login', validate, (req, res) => {
   const token = crypto.randomBytes(8).toString('hex');
   return res.status(200).json({ token });
+});
+
+app.post('/talker', 
+validateToken,
+validateName,
+validateAge,
+validateTalk,
+validateTalkRate,
+validateTalkWatchedAt,
+async (req, res) => {
+  const { id, name, age, talk } = req.body;
+  const persons = await readFile();
+
+  persons.push(id, name, age, talk);
+
+  await writeFile(persons);
+
+  res.status(201).json(req.body);
 });
 
 app.listen(PORT, () => {
