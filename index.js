@@ -23,7 +23,7 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.get('/talker', async (req, res) => {
+app.get('/talker', async (_req, res) => {
   const persons = await readFile();
   if (!persons) return res.status(200).json([]);
   return res.status(200).json(persons);
@@ -37,7 +37,7 @@ app.get('/talker/:id', async (req, res) => {
   if (!personId) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
-app.post('/login', validate, (req, res) => {
+app.post('/login', validate, (_req, res) => {
   const token = crypto.randomBytes(8).toString('hex');
   return res.status(200).json({ token });
 });
@@ -59,6 +59,33 @@ async (req, res) => {
   await writeFile(talkers);
 
   res.status(201).json(newTalker);
+});
+
+app.put('/talker/:id',
+validateToken,
+validateName,
+validateAge,
+validateTalk,
+validateTalkWatchedAt,
+validateTalkRate,
+async (req, res) => {
+  const { id } = req.params;
+  const { name, age, talk: { watchedAt, rate } } = req.body;
+  const talkers = await readFile();
+  const talkerEdit = { id: Number(id), name, age, talk: { watchedAt, rate } };
+  const updateTalker = talkers.map((talker) => (talker.id === Number(id) ? talkerEdit : talker));
+  await writeFile(updateTalker);
+  return res.status(200).json({ talkerEdit });
+});
+
+app.delete('/talker/:id',
+validateToken,
+async (req, res) => {
+  const { id } = req.params;
+  const talkers = await readFile();
+  const deleteId = talkers.filter((talker) => talker.id !== Number(id));
+  await writeFile(deleteId);
+  return res.status(204).end();
 });
 
 app.listen(PORT, () => {
