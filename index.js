@@ -50,14 +50,15 @@ validateTalk,
 validateTalkRate,
 validateTalkWatchedAt,
 async (req, res) => {
-  const { id, name, age, talk } = req.body;
-  const persons = await readFile();
+  const { name, age, talk } = req.body;
+  const talkers = await readFile();
+  const newTalker = { id: talkers.length + 1, name, age, talk };
 
-  persons.push(id, name, age, talk);
+  talkers.push(newTalker);
 
-  await writeFile(persons);
+  await writeFile(talkers);
 
-  res.status(201).json(req.body);
+  res.status(201).json(newTalker);
 });
 
 app.listen(PORT, () => {

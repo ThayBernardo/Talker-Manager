@@ -33,10 +33,9 @@ const validateTalk = (req, res, next) => {
 
 const validateTalkWatchedAt = (req, res, next) => {
   const { talk: { watchedAt } } = req.body;
-  const re = /^\w+(\[\+\.-\]?\w)*@\w+(\[\.-\]?\w+)*\.[a-z]+$/i;
-  const watchedAtValidate = re.test(watchedAt);
+  const re = /\d{2}\/\d{2}\/\d{4}/g;
   if (!watchedAt) return res.status(400).json({ message: 'O campo "watchedAt" é obrigatório' });
-  if (!watchedAtValidate) {
+  if (!re.test(watchedAt)) {
     return res.status(400).json({ message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"' });
   }
   next();

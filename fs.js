@@ -6,8 +6,8 @@ const readFile = async () => {
 };
 
 const writeFile = async (content) => {
-  const file = await fs.writeFile('./talker.json', content);
-  return JSON.stringify(file);
+  const fileContent = JSON.stringify(content);
+  await fs.writeFile('./talker.json', fileContent);
 };
 
 module.exports = { readFile, writeFile };
