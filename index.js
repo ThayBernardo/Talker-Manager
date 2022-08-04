@@ -29,7 +29,6 @@ async (req, res) => {
   const { q: name } = req.query;
   const talkers = await readFile();
   const filterName = talkers.filter((talker) => talker.name.includes(name));
-  console.log(req);
   if (filterName.length === 0) return res.status(200).json([]);
   return res.status(200).json(filterName);
 });
@@ -64,11 +63,8 @@ async (req, res) => {
   const { name, age, talk } = req.body;
   const talkers = await readFile();
   const newTalker = { id: talkers.length + 1, name, age, talk };
-
   talkers.push(newTalker);
-
   await writeFile(talkers);
-
   res.status(201).json(newTalker);
 });
 
