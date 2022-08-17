@@ -1,8 +1,4 @@
 <h1 align="center">Talker Manager</h1>
-<p align="center">
-  <a href="#O que foi desenvolvido">O que foi desenvolvido</a> •
-  <a href="#Features">Features</a> 
-</p>
 
 # Sobre
 Aplicação de cadastro de talkers (palestrantes) em que será possível cadastrar, visualizar, pesquisar, editar e excluir informações. 
