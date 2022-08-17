@@ -7,13 +7,11 @@ Aplicação de cadastro de talkers (palestrantes) em que será possível cadastr
 - API CRUD (Create, Read, Update and Delete);
 - Desenvolver endpoints que irão ler e escrever em um arquivo utilizando o módulo fs;
 - Criar uma aplicação Express.js;
-<br />
 
 # O que foi desenvolvido
   Uma API `CRUD` (**C**reate, **R**ead, **U**pdate e **D**elete) de palestrantes (talkers);
   <br />
   Endpoints que irão ler e escrever em um arquivo utilizando o módulo `fs`.
-<br />
 
 # Features
   - [x] Todas pessoas palestrantes cadastradas.<br />
@@ -24,7 +22,6 @@ Aplicação de cadastro de talkers (palestrantes) em que será possível cadastr
   - [x] Editar uma pessoa palestrante com base no id da rota.<br />
   - [x] Autenticação nos headers, no campo authorization.<br />
   - [x] Retorna um array de palestrantes que contenham em seu nome o termo pesquisado no queryParam da URL.
-<br />
 
 # Rodando em Docker
 <strong>É necessário que você tenha em sua máquina instalado `node` e `docker`</strong>
